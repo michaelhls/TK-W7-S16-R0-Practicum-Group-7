@@ -1,6 +1,9 @@
 package Stack;
 
-// Contoh implementasi sederhana riwayat pergantian teks, dengan implementasi redo and undo dengan memanfaatkan data tipe Stack.
+// Contoh implementasi sederhana riwayat pergantian teks, dengan implementasi redo and undo dengan memanfaatkan data struktur Stack.
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 // Cara kerja sederhana Stack dari implementasi riwayat pergantian teks ini dapat dilihat pada contoh skenario sederhana berikut:
 //
 // -> text
@@ -26,16 +29,16 @@ public final class TextHistory {
   // Stack untuk operasi-operasi redo. Biasanya kosong apabila pengguna tidak pernah menggunakan undo.
   // Akan bertambah seiring dengan setiap operasi undo yang sukses dan langsung kosong kembali apabila
   // pengguna langsung memodifikasi/menambahkan teks.
-  private final Stack redo;
+  private final Stack<String> redo;
 
   // Stack untuk operasi-operasi undo. Elemen teratas atau top adalah isi dari teks saat ini.
   // Akan bertambah seiring dengan setiap operasi redo atau modifikasi/tambahan teks yang sukses.
-  private final Stack undo;
+  private final Stack<String> undo;
 
   // Proses inisialisasi properti-properti Stack.
   public TextHistory() {
-    this.redo = new Stack();
-    this.undo = new Stack();
+    this.redo = new Stack<>();
+    this.undo = new Stack<>();
   }
 
   // Metode untuk memodifikasi satu teks secara penuh.
@@ -61,32 +64,24 @@ public final class TextHistory {
   // Apabila elemen tersebut tidak ada karena Stack undo saat ini kosong, maka
   // langsung keluarkan String yang kosong.
   public String getText() {
-    final String top = this.undo.getTop();
-
-    return top == null ? "" : top;
+    try {
+      return this.undo.peek();
+    } catch (EmptyStackException e) {
+      return "";
+    }
   }
 
   // Operasi redo.
   public void redo() {
-    // Keluarkan elemen top dari Stack redo.
-    final String redoText = this.redo.pop();
-
-    // Apabila elemen tersebut ada karena Stack tidak kosong, tambahkan elemen tersebut ke top dari Stack undo agar
-    // pengguna juga dapat undo kembali nantinya.
-    if (redoText != null) {
-      this.undo.push(redoText);
-    }
+    try {
+      this.undo.push(this.redo.pop());
+    } catch (EmptyStackException e) {}
   }
   
   // Operasi undo.
   public void undo() {
-    // Keluarkan elemen top dari Stack undo.
-    final String undoText = this.undo.pop();
-
-    // Apabila elemen tersebut ada karena Stack tidak kosong, tambahkan elemen tersebut ke top dari Stack redo agar
-    // pengguna juga dapat redo kembali nantinya.
-    if (undoText != null) {
-      this.redo.push(undoText);
-    }
+    try {
+      this.redo.push(this.undo.pop());
+    } catch (EmptyStackException e) {}
   }
 }
