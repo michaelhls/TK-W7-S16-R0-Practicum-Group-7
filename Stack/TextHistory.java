@@ -1,7 +1,6 @@
 package Stack;
 
 // Contoh implementasi sederhana riwayat pergantian teks, dengan implementasi redo and undo dengan memanfaatkan data struktur Stack.
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 // Cara kerja sederhana Stack dari implementasi riwayat pergantian teks ini dapat dilihat pada contoh skenario sederhana berikut:
@@ -64,24 +63,20 @@ public final class TextHistory {
   // Apabila elemen tersebut tidak ada karena Stack undo saat ini kosong, maka
   // langsung keluarkan String yang kosong.
   public String getText() {
-    try {
-      return this.undo.peek();
-    } catch (EmptyStackException e) {
-      return "";
-    }
+    return this.undo.isEmpty() ? "" : this.undo.peek();
   }
 
   // Operasi redo.
   public void redo() {
-    try {
+    if (!this.redo.isEmpty()) {
       this.undo.push(this.redo.pop());
-    } catch (EmptyStackException e) {}
+    }
   }
   
   // Operasi undo.
   public void undo() {
-    try {
+    if (!this.undo.isEmpty()) {
       this.redo.push(this.undo.pop());
-    } catch (EmptyStackException e) {}
+    }
   }
 }
