@@ -1,4 +1,4 @@
-package Queue; // Ganti nama package jika perlu
+package Queue; 
 
 /**
  * Class untuk merepresentasikan pelanggan dalam antrean layanan.

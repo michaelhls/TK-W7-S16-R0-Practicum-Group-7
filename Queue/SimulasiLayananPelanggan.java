@@ -1,5 +1,4 @@
-package Queue; // Gunakan nama package yang sama
-
+package Queue; 
 import java.util.Scanner;
 
 /**
