@@ -27,7 +27,13 @@ public final class Main {
         case "1": {
           System.out.print("Teks baru: ");
 
-          text.setText(scanner.nextLine());
+          final String newText = scanner.nextLine();
+
+          final long start = System.nanoTime();
+          text.setText(newText);
+          final long end = System.nanoTime();
+
+          System.out.println("Selesai dalam " + (end - start) + " ns");
 
           continue;
         }
@@ -36,21 +42,35 @@ public final class Main {
         case "2": {
           System.out.print("Teks baru: " + text.getText());
 
-          text.addText(scanner.nextLine());
+          final String newText = scanner.nextLine();
+
+          final long start = System.nanoTime();
+          text.addText(newText);
+          final long end = System.nanoTime();
+
+          System.out.println("Selesai dalam " + (end - start) + " ns");
 
           continue;
         }
 
         // Undo
         case "3": {
+          final long start = System.nanoTime();
           text.undo();
+          final long end = System.nanoTime();
+
+          System.out.println("Selesai dalam " + (end - start) + " ns");
 
           continue;
         }
 
         // Redo
         case "4": {
+          final long start = System.nanoTime();
           text.redo();
+          final long end = System.nanoTime();
+
+          System.out.println("Selesai dalam " + (end - start) + " ns");
 
           continue;
         }
